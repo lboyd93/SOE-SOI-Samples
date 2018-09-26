@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ESRI.Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.esri.com/Desktop/AddIns">
+  <Name>SOI_DoNotUseThatWord</Name>
+  <AddInID>64eaea8a-806a-4f36-890a-20e5aca77f3b</AddInID>
+  <Description />
+  <Version>1.0</Version>
+  <Author>laur8722</Author>
+  <Provider>ArcObjects</Provider>
+  <Company />
+  <Date>2018-09-26T12:13:50</Date>
+  <Targets>
+    <Target name="Server" version="10.6" />
+  </Targets>
+  <AddIn language="CLR" library="SOI-DoNotUseThatWord.dll" namespace="SOI_DoNotUseThatWord">
+    <ServerObjectType>
+      <Name>MapServer</Name>
+      <ExtensionTypes>
+        <ExtensionType id="SOI_DoNotUseThatWord.SOI_DoNotUseThatWord" library="SOI-DoNotUseThatWord.dll" class="SOI_DoNotUseThatWord.SOI_DoNotUseThatWord">
+          <Name>SOI_DoNotUseThatWord</Name>
+          <DisplayName>DoNotUseThatWord</DisplayName>
+          <Description />
+          <Properties />
+          <Resources />
+          <Info>
+            <DefaultWebCapabilities />
+            <AllWebCapabilities />
+            <SupportsREST>false</SupportsREST>
+            <SupportsSOAP>false</SupportsSOAP>
+            <hasManagerPropertiesConfigurationPane>false</hasManagerPropertiesConfigurationPane>
+            <SupportsInterceptor>true</SupportsInterceptor>
+          </Info>
+        </ExtensionType>
+      </ExtensionTypes>
+    </ServerObjectType>
+  </AddIn>
+</ESRI.Configuration>

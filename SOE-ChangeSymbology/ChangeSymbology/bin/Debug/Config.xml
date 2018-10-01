@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ESRI.Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.esri.com/Desktop/AddIns">
+  <Name>ChangeSymbology</Name>
+  <AddInID>36c0e445-1c19-4760-9289-21e7ef6ffd07</AddInID>
+  <Description />
+  <Version>1.0</Version>
+  <Author>laur8722</Author>
+  <Provider>ArcObjects</Provider>
+  <Company />
+  <Date>2018-10-01T15:05:50</Date>
+  <Targets>
+    <Target name="Server" version="10.6" />
+  </Targets>
+  <AddIn language="CLR" library="ChangeSymbology.dll" namespace="ChangeSymbology">
+    <ServerObjectType>
+      <Name>MapServer</Name>
+      <ExtensionTypes>
+        <ExtensionType id="ChangeSymbology.ChangeSymbology" library="ChangeSymbology.dll" class="ChangeSymbology.ChangeSymbology">
+          <Name>ChangeSymbology</Name>
+          <DisplayName>ChangeSymbology</DisplayName>
+          <Description />
+          <Properties />
+          <Resources />
+          <Info>
+            <DefaultWebCapabilities />
+            <AllWebCapabilities>Rerender</AllWebCapabilities>
+            <SupportsREST>true</SupportsREST>
+            <SupportsSOAP>false</SupportsSOAP>
+            <hasManagerPropertiesConfigurationPane>false</hasManagerPropertiesConfigurationPane>
+            <SupportsInterceptor>false</SupportsInterceptor>
+          </Info>
+        </ExtensionType>
+      </ExtensionTypes>
+    </ServerObjectType>
+  </AddIn>
+</ESRI.Configuration>

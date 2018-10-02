@@ -49,8 +49,13 @@ namespace ChangeSymbology
 
         private IPropertySet configProps;
         private IServerObjectHelper serverObjectHelper;
-        private ServerLogger logger;
+        private ServerLogger _serverLog;
         private IRESTRequestHandler reqHandler;
+
+        private IMapServerDataAccess mapServerDataAccess;
+        private IMapServer3 mapServer;
+        private IMapServerInfo mapServerInfo;
+        private IMapLayerInfos mapLayerInfos;
 
         private IFeatureLayer m_featureLayerToChange;
         private string m_mapLayerNameToChange;
@@ -58,7 +63,7 @@ namespace ChangeSymbology
         public ChangeSymbology()
         {
             soe_name = this.GetType().Name;
-            logger = new ServerLogger();
+            _serverLog = new ServerLogger();
             reqHandler = new SoeRestImpl(soe_name, CreateRestSchema()) as IRESTRequestHandler;
         }
 
@@ -67,6 +72,22 @@ namespace ChangeSymbology
         public void Init(IServerObjectHelper pSOH)
         {
             serverObjectHelper = pSOH;
+
+            _serverLog = new ServerLogger();
+
+            _serverLog.LogMessage(ServerLogger.msgType.infoStandard, soe_name + ".init()", 200, "Initialized " + soe_name + " SOE.");
+
+
+            System.Diagnostics.Debugger.Launch();
+
+            mapServerDataAccess = (IMapServerDataAccess)serverObjectHelper.ServerObject;
+
+            //mapServer = serverObjectHelper.ServerObject as MapServerClass;
+            mapServer = (IMapServer3)serverObjectHelper.ServerObject;
+            mapServerInfo = mapServer.GetServerInfo(mapServer.MapName[0]);
+            mapLayerInfos = mapServerInfo.MapLayerInfos;
+
+            _serverLog.LogMessage(ServerLogger.msgType.infoStandard, soe_name + ".init()", 200, "Created MapServer, MapServerData, MapServerInfos " + soe_name + " SOE.");
         }
 
         public void Shutdown()
@@ -81,44 +102,44 @@ namespace ChangeSymbology
         {
             configProps = props;
             //can put the logic here to access the layer since working with one layer only
-            if (props.GetProperty("LayerName") != null)
-            {
-                m_mapLayerNameToChange = props.GetProperty("LayerName") as string;
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
-            try
-            {
-                // Get the feature layer to be changed.
-                // Since the layer is a property of the SOE, this only has to be done once.
-                IMapServer3 mapServer = (IMapServer3)serverObjectHelper.ServerObject;
-                string mapName = mapServer.DefaultMapName;
-                IMapLayerInfo layerInfo;
-                IMapLayerInfos layerInfos = mapServer.GetServerInfo(mapName).MapLayerInfos;
-                // Find the index position of the map layer to query.
-                int c = layerInfos.Count;
-                int layerIndex = 0;
-                for (int i = 0; i < c; i++)
-                {
-                    layerInfo = layerInfos.get_Element(i);
-                    if (layerInfo.Name == m_mapLayerNameToChange)
-                    {
-                        layerIndex = i;
-                        break;
-                    }
-                }
-                // Use IMapServerDataAccess to get the data
-                IMapServerDataAccess dataAccess = (IMapServerDataAccess)mapServer;
-                // Get access to the source feature layer.
-                m_featureLayerToChange = (dataAccess.GetDataSource(mapName, layerIndex)) as IFeatureLayer;
-            }
-            catch
-            {
-                logger.LogMessage(ServerLogger.msgType.error, "Construct", 8000,
-                    "SOE custom error: Could not get the feature layer.");
-            }
+            //if (props.GetProperty("LayerName") != null)
+            //{
+            //    m_mapLayerNameToChange = props.GetProperty("LayerName") as string;
+            //}
+            //else
+            //{
+            //    throw new ArgumentNullException();
+            //}
+            //try
+            //{
+            //    // Get the feature layer to be changed.
+            //    // Since the layer is a property of the SOE, this only has to be done once.
+            //    IMapServer3 mapServer = (IMapServer3)serverObjectHelper.ServerObject;
+            //    string mapName = mapServer.DefaultMapName;
+            //    IMapLayerInfo layerInfo;
+            //    IMapLayerInfos layerInfos = mapServer.GetServerInfo(mapName).MapLayerInfos;
+            //    // Find the index position of the map layer to query.
+            //    int c = layerInfos.Count;
+            //    int layerIndex = 0;
+            //    for (int i = 0; i < c; i++)
+            //    {
+            //        layerInfo = layerInfos.get_Element(i);
+            //        if (layerInfo.Name == m_mapLayerNameToChange)
+            //        {
+            //            layerIndex = i;
+            //            break;
+            //        }
+            //    }
+            //    // Use IMapServerDataAccess to get the data
+            //    IMapServerDataAccess dataAccess = (IMapServerDataAccess)mapServer;
+            //    // Get access to the source feature layer.
+            //    m_featureLayerToChange = (dataAccess.GetDataSource(mapName, layerIndex)) as IFeatureLayer;
+            //}
+            //catch
+            //{
+            //    logger.LogMessage(ServerLogger.msgType.error, "Construct", 8000,
+            //        "SOE custom error: Could not get the feature layer.");
+            //}
         }
 
         #endregion
@@ -193,6 +214,15 @@ namespace ChangeSymbology
                                                   out string responseProperties)
         {
             responseProperties = null;
+
+            //IMapServerObjects3 mapserverObj = (IMapServerObjects3)mapServer;
+
+            //ILayer layer = mapserverObj.Layer[mapServer.DefaultMapName , 0];
+
+            //if(layer is IFeatureLayer)
+            //{
+            //    m_featureLayerToChange = (IFeatureLayer)layer;
+            //}
 
             changeRenderer(m_featureLayerToChange, "Red");
 

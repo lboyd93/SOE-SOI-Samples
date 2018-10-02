@@ -101,45 +101,7 @@ namespace ChangeSymbology
         public void Construct(IPropertySet props)
         {
             configProps = props;
-            //can put the logic here to access the layer since working with one layer only
-            //if (props.GetProperty("LayerName") != null)
-            //{
-            //    m_mapLayerNameToChange = props.GetProperty("LayerName") as string;
-            //}
-            //else
-            //{
-            //    throw new ArgumentNullException();
-            //}
-            //try
-            //{
-            //    // Get the feature layer to be changed.
-            //    // Since the layer is a property of the SOE, this only has to be done once.
-            //    IMapServer3 mapServer = (IMapServer3)serverObjectHelper.ServerObject;
-            //    string mapName = mapServer.DefaultMapName;
-            //    IMapLayerInfo layerInfo;
-            //    IMapLayerInfos layerInfos = mapServer.GetServerInfo(mapName).MapLayerInfos;
-            //    // Find the index position of the map layer to query.
-            //    int c = layerInfos.Count;
-            //    int layerIndex = 0;
-            //    for (int i = 0; i < c; i++)
-            //    {
-            //        layerInfo = layerInfos.get_Element(i);
-            //        if (layerInfo.Name == m_mapLayerNameToChange)
-            //        {
-            //            layerIndex = i;
-            //            break;
-            //        }
-            //    }
-            //    // Use IMapServerDataAccess to get the data
-            //    IMapServerDataAccess dataAccess = (IMapServerDataAccess)mapServer;
-            //    // Get access to the source feature layer.
-            //    m_featureLayerToChange = (dataAccess.GetDataSource(mapName, layerIndex)) as IFeatureLayer;
-            //}
-            //catch
-            //{
-            //    logger.LogMessage(ServerLogger.msgType.error, "Construct", 8000,
-            //        "SOE custom error: Could not get the feature layer.");
-            //}
+            
         }
 
         #endregion

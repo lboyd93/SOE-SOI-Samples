@@ -182,31 +182,6 @@ namespace ChangeSymbology
             return Encoding.UTF8.GetBytes(result.ToJson());
         }
 
-        private byte[] SampleOperHandler(NameValueCollection boundVariables,
-                                                  JsonObject operationInput,
-                                                      string outputFormat,
-                                                      string requestProperties,
-                                                  out string responseProperties)
-        {
-            responseProperties = null;
-
-            string parm1Value;
-            bool found = operationInput.TryGetString("parm1", out parm1Value);
-            if (!found || string.IsNullOrEmpty(parm1Value))
-                throw new ArgumentNullException("parm1");
-
-            //string parm2Value;
-            //found = operationInput.TryGetString("parm2", out parm2Value);
-            //if (!found || string.IsNullOrEmpty(parm2Value))
-            //    throw new ArgumentNullException("parm2");
-
-            JsonObject result = new JsonObject();
-            result.AddString("parm1", parm1Value);
-            //result.AddString("parm2", parm2Value);
-
-            return Encoding.UTF8.GetBytes(result.ToJson());
-        }
-
         private byte[] RerenderOperHandler(NameValueCollection boundVariables,
                                                   JsonObject operationInput,
                                                       string outputFormat,
@@ -214,17 +189,33 @@ namespace ChangeSymbology
                                                   out string responseProperties)
         {
             responseProperties = null;
+            IServerSymbolOutputOptions serverSymbolOutputOptions = new ServerSymbolOutputOptions();
+            
 
-            //IMapServerObjects3 mapserverObj = (IMapServerObjects3)mapServer;
+            ILongArray longArray = new LongArray();
+            longArray.Add(0);
 
-            //ILayer layer = mapserverObj.Layer[mapServer.DefaultMapName , 0];
+            for(int i = 0; i <= mapLayerInfos.Count - 1; i++)
+            {
+                IMapLayerInfo mapLayerInfo = mapLayerInfos.Element[i];
 
-            //if(layer is IFeatureLayer)
-            //{
-            //    m_featureLayerToChange = (IFeatureLayer)layer;
-            //}
+                if (mapLayerInfo.IsFeatureLayer)
+                {
+                    ILayerDrawingDescriptions layerDrawingDescriptions = mapServer.GetDefaultLayerDrawingDescriptions(mapServer.DefaultMapName, longArray, serverSymbolOutputOptions);
 
-            changeRenderer(m_featureLayerToChange, "Red");
+                    ILayerDrawingDescription layerDrawingDescription = layerDrawingDescriptions.Element[0];
+
+                    IFeatureLayerDrawingDescription2 featureLayerDrawingDescription = (IFeatureLayerDrawingDescription2)layerDrawingDescription;
+
+                    IFeatureRenderer featureRenderer = featureLayerDrawingDescription.FeatureRenderer;
+
+                    
+                    
+                }
+            }
+            
+
+            //changeRenderer(m_featureLayerToChange, "Red");
 
             JsonObject result = new JsonObject();
 
